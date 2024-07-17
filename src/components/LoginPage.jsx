@@ -74,7 +74,26 @@ const LoginPage = () => {
                             e.target.password.value = '';
 
                             // save to LS
-                            localStorage.setItem('user-billnotes', emailOrMobile)
+                            localStorage.setItem('user-billnotes', emailOrMobile);
+                            
+                            // jwt token save
+                            const curUser = emailOrMobile;
+                            axios.post('http://localhost:5500/jwt', {curUser})
+                            .then(res=>{
+                                if(res.data){
+                                    localStorage.setItem('access-token', res.data);
+                                    if(retrievedUser.role == 'admin'){
+                                        navigate('/adminDash');
+                                    }
+                                    else if (retrievedUser.role == 'agent'){
+                                        navigate('/agentDash');
+                                    }
+                                    else{
+                                        navigate('/userDash');
+                                    }
+                                }
+                            })
+
                         });
                     } else {
                         Swal.fire({

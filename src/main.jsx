@@ -9,6 +9,9 @@ import {
 import Rootpage from './components/Rootpage.jsx';
 import LoginPage from './components/LoginPage.jsx';
 import RegisterPage from './components/RegisterPage.jsx';
+import UserDashboard from './components/UserDashboard.jsx';
+import AdminDashboard from './components/AdminDashboard.jsx';
+import AgentDashboard from './components/AgentDashboard.jsx';
 
 
 const router = createBrowserRouter([
@@ -23,6 +26,18 @@ const router = createBrowserRouter([
       {
         path:'/register',
         element:<RegisterPage/>
+      },
+      {
+        path:'/userDash',
+        element:<UserDashboard/>
+      },
+      {
+        path:'/adminDash',
+        element:<AdminDashboard/>
+      },
+      {
+        path:'/agentDash',
+        element:<AgentDashboard/>
       },
     ]
   },
