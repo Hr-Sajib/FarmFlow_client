@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.custom-confirm-button {
+    background-color:#1e40af;
+    color: white !important;
+}
