@@ -45,8 +45,7 @@ const RegisterPage = () => {
         
     
         if ((isValidEmail(emailOrMobile) || isValidPhoneNumber(emailOrMobile))  &&  isValidPin(pin)){
-            const balance = role=='user' ? 40 : role=='agent' ? 10000 : 0;
-            const newUser = {name,emailOrMobile, role, status:'pending', balance}
+            const newUser = {name,emailOrMobile, role, status:'pending', balance : 0}
 
             const saltRounds = 10;
             bcrypt.hash(pin, saltRounds, function(err, hash) {

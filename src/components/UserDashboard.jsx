@@ -1,6 +1,17 @@
 import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 const UserDashboard = () => {
+
+    const navigate = useNavigate();
+
+    const handleLogOut =()=>{
+        localStorage.removeItem('access-token');
+        localStorage.removeItem('user-billnotes');
+        navigate('/');
+    }
+
+
     return (
         <div className="min-h-screen bg-gray-100 flex flex-col items-center lg:pb-10">
             <header className="w-full bg-blue-700 text-white p-4">
@@ -11,14 +22,17 @@ const UserDashboard = () => {
                 <section className="w-full max-w-4xl bg-white rounded-lg shadow-md p-6 mb-6">
                     <h2 className="text-xl font-bold mb-4">Account Overview</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <p><strong>Name:</strong> John Doe</p>
-                            <p><strong>Email:</strong> johndoe@example.com</p>
-                            <p><strong>Phone Number:</strong> 0123456789</p>
+                        <div className='border rounded-xl lg:p-4' >
+                            <p className='text-left'>Name: <strong> John Doe</strong></p>
+                            <p className='text-left'><strong> johndoe@example.com</strong></p>
                         </div>
-                        <div>
-                            <p><strong>Account Balance:</strong> 40 Taka</p>
+                        <div className='border rounded-xl lg:p-4'>
+                            <p className='text-5xl'>400</p>
+                            <p>Account Balance</p>
                         </div>
+                    </div>
+                    <div className='flex justify-end pr-1'>
+                        <button onClick={handleLogOut} className='bg-red-200 p-2 mt-5 rounded-lg font-bold'>Log Out</button>
                     </div>
                 </section>
 

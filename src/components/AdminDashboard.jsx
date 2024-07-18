@@ -1,15 +1,65 @@
-import React from 'react';
+import axios, { all } from 'axios';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 const AdminDashboard = () => {
+    const navigate = useNavigate();
+
+    const [allUsers, setAllUsers] = useState([]);
+
+    useEffect(() => {
+        axios.get('http://localhost:5500/getUsers')
+            .then(r => {
+                const all = r.data;
+                const withOutAdminAll =all.filter(u=> u.role !== 'admin');
+                r.data && setAllUsers(withOutAdminAll);
+            })
+            .catch(err => {
+                console.error('Error fetching users:', err);
+            });
+    }, []);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    const handleLogOut =()=>{
+        localStorage.removeItem('access-token');
+        localStorage.removeItem('user-billnotes');
+        navigate('/');
+    }
+
+
     return (
         <div className="min-h-screen bg-gray-100 flex flex-col items-center">
             <header className="w-full bg-blue-700 text-white p-4">
                 <h1 className="text-2xl font-bold text-center">Admin Dashboard</h1>
             </header>
+            <div className='w-full flex justify-end pr-5'>
+                <button onClick={handleLogOut} className='bg-red-200 p-2 mt-5 rounded-lg font-bold'>Log Out</button>
+            </div>
 
             <main className="flex flex-col items-center mt-10 w-full px-6">
                 <section className="w-full max-w-4xl bg-white rounded-lg shadow-md p-6 mb-6">
-                    <h2 className="text-xl font-bold mb-4">User Management</h2>
+                    <h2 className="text-xl font-bold mb-4">User & Agent Management</h2>
                     <form className="space-y-4">
                         <div>
                             <label className="block text-gray-700">Search User by Name</label>
@@ -26,12 +76,13 @@ const AdminDashboard = () => {
                         </button>
                     </form>
                     <div className="mt-6">
-                        <h3 className="text-lg font-bold mb-2">User List</h3>
-                        <ul className="list-disc pl-5">
-                            <li>User 1 - Status: Active</li>
-                            <li>User 2 - Status: Pending</li>
-                            {/* Add more users as needed */}
-                        </ul>
+                        <h3 className="text-lg font-bold mb-2">Accounts List</h3>
+                        <div className='flex justify-between px-3  bg-blue-100 p-1 mb-2'>
+                            <p className='border w-[20%] text-left'>Name</p> <p className='border w-[20%]'>Role Requested</p><p className='border w-[20%]'>Status</p> <p className='border w-[30%] text-right'>Approval</p>
+                        </div>
+                        {
+                            allUsers.map(user => <Row user={user} key={user._id}></Row>)
+                        }
                     </div>
                 </section>
 
@@ -71,3 +122,27 @@ const AdminDashboard = () => {
 };
 
 export default AdminDashboard;
+
+
+
+const Row =({user})=>{
+    
+    return(
+        <div className='flex justify-between text-left bg-gray-100 p-1 mb-1 px-2'>
+            <p className=' w-[20%]'>{user.name}</p>
+            <p className=' w-[20%] text-center'>{user.role}</p>
+            <p className=' w-[20%] text-center'>{user.status}</p>
+            <div className=' w-[30%] flex justify-end'>
+                <form>
+                    <select className='bg-gray-600 text-white p-[6px] mr-2 ' name="approval">
+                        <option value="active">Choose</option>
+                        <option value="active">Approve</option>
+                        <option value="active">Decline</option>
+                    </select>
+                    <input className='bg-gray-600 p-1 text-white  px-3' type="submit" value="Apply" />
+
+                </form>
+            </div>
+        </div>
+    )
+}
